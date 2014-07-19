@@ -79,7 +79,10 @@ def is_logged_in_hook():
 @app.route('/api/register', methods=['POST'])
 @return_json
 def register_team_hook():
-    return account.register_team(request)
+    success =  account.register_team(request)
+    if success:
+        return auth.login(request, session)
+    return success
 
 
 @app.route('/api/updatepass', methods=['POST'])
@@ -173,9 +176,9 @@ def load_team_score_hook():
 def get_scoreboards_hook():
     """Loads the public scoreboard if the user is not logged in
     otherwise retrieves the group scoreboards as well"""
-    scoreboards = [scoreboard.get_public_scoreboard()]
-    if 'tid' in session:
-        scoreboards += scoreboard.get_group_scoreboards(session['tid'])
+    scoreboards = scoreboard.get_public_scoreboard()
+    # if 'tid' in session:
+        # scoreboards += scoreboard.get_group_scoreboards(session['tid'])
     return scoreboards
 
 
@@ -201,9 +204,7 @@ def get_ssh_account_hook():
 
 @app.after_request
 def after_request(response):
-    if (request.headers.get('Origin', '') in
-            ['http://example.com',
-             'http://www.example.com']):
+    if (request.headers.get('Origin', '') in ['http://YOURWEBSITE.com']):
         response.headers.add('Access-Control-Allow-Origin',
                              request.headers['Origin'])
     response.headers.add('Access-Control-Allow-Methods', 'GET, POST')

@@ -48,8 +48,10 @@ def load_autogenerator(prob):
     generator = imp.load_source(prob['generator'][:-3], 'autogenerators/'+prob['generator'])
     if hasattr(generator, 'validate_dependencies') and callable(generator.validate_dependencies):
         if not generator.validate_dependencies():
+            print "Generator failed: %s" % prob['displayname']
             return None
     if hasattr(generator, 'generate') and callable(generator.generate):
+        print "Generator OK: %s" % prob['displayname']
         auto_generators[prob['pid']] = generator
         return generator
     return None
@@ -81,6 +83,7 @@ def build_problem_instance(prob, tid):
     generator to the web path and perform description substitutions to enable external access to these resources.
     We then update the team document to specify that an auto-generated problem has been created for this team.
     """
+    print "Building %s for %s" % (prob,tid)
     generator = auto_generators.get(prob['pid'], None)
     if generator is None:
         print "Autogenerator for %s was not found in the precached list, rebuilding..." % prob['pid']
@@ -110,8 +113,10 @@ def load_unlocked_problems(tid):
     Increment the threshold counter for solved weightmap problems.
     If the threshold counter is higher than the problem threshold then add the problem to the return list (ret).
     """
+    print "Getting unlocked problems"
     unlocked = cache.get('unlocked_' + tid)  # Get the teams list of unlocked problems from the cache
     if unlocked is not None:  # Return this if it is not empty in the cache
+        print "Returning cache!"
         return json.loads(unlocked)
     unlocked = []
     team = db.teams.find_one({'tid': tid})
@@ -131,7 +136,7 @@ def load_unlocked_problems(tid):
                              else build_problem_instance(p, tid)})
 
     unlocked.sort(key=lambda k: k['basescore'] if 'basescore' in k else 99999)
-    cache.set('unlocked_' + tid, json.dumps(unlocked), 60 * 60)
+    cache.set('unlocked_' + tid, json.dumps(unlocked), 1 * 60)
     return unlocked
 
 
@@ -154,7 +159,7 @@ def get_solved_problems(tid):
                       'basescore': p.get('basescore', None)} for p in probs],
                     key=lambda k: k['basescore'] if 'basescore' in k else 99999,
                     reverse=True)
-    cache.set('solved_' + tid, json.dumps(solved), 60 * 60)
+    cache.set('solved_' + tid, json.dumps(solved), 1 * 60)
     return solved
 
 

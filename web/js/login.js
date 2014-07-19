@@ -31,7 +31,7 @@
         if (typeof Storage !== "undefined") {
           sessionStorage.signInStatus = "loggedIn";
         }
-        return document.location.href = "compete";
+        return document.location.href = "problems";
       }
     });
   };

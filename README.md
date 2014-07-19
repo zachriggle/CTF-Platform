@@ -65,7 +65,7 @@ Keep in mind that you do not necessarily need to transfer these files to
 your server. They are descriptions of documents to add to the problems 
 collection (MongoDB stores documents as [BSON](http://bsonspec.org/) 
 which is a superset of JSON). See the below example for how to add one 
-of these problem to an instance of the CTF Platform.
+of these problem to an instance of the Weekly CTF.
 
 The required information for each problem document is the 'basescore' 
 (number of points it is worth), 'desc', 'displayname', 'hint', 'pid' 

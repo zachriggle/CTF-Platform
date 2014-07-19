@@ -29,4 +29,4 @@ logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 logging.debug("\nAGGREGATOR START")
 while True:
     load_group_scoreboards()
-    time.sleep(30)
+    time.sleep(1)

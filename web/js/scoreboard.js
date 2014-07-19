@@ -30,12 +30,12 @@
             }
           });
         } else {
-          html_select += "<li><a onclick=\"switch_scoreboard('" + d.group + "');\">" + d.group + "</a></li>";
-          html_scores += "<div style='display: none;' id='scoreboard_" + d.group + "' class='scoreboard'><table class='table'><tbody><tr><th>Place</th><th>Team</th><th>Affiliation</th><th>Score</th></tr>";
+          html_select += "<h3>Scoreboard</h3>"; //<li><a onclick=\"switch_scoreboard('" + d.group + "');\">" + d.group + "</a></li>";
+          html_scores += "<div style='display: none;' id='scoreboard_" + d.group + "' class='scoreboard'><table class='table'><tbody><tr><th>Name</th><th>Score</th></tr>";
           _ref = d['scores'];
           for (idx = _j = 0, _len1 = _ref.length; _j < _len1; idx = ++_j) {
             s = _ref[idx];
-            html_scores += "<tr><td>" + (idx + 1) + "</td><td class='teamname'>" + s['teamname'] + "</td><td class='affiliation'>" + s['affiliation'] + "</td><td>" + s['score'] + "</td></tr>";
+            html_scores += "<tr><td class='teamname'>" + s['teamname'] + "</td><td>" + s['score'] + "</td></tr>";
           }
           html_scores += "</tbody></table></div>";
         }
@@ -97,7 +97,7 @@
       url: "/api/score",
       dataType: "json"
     }).done(function(data) {
-      return $('#team_status').html("<h3>Team Status - " + data['score'] + "</h3>");
+      return $('#team_status').html("<h3>Total Points - " + data['score'] + "</h3>");
     });
   };
 

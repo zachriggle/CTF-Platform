@@ -101,11 +101,11 @@ def request_password_reset(request):
     db.teams.update({'tid': team['tid']}, {'$set': {'passrestoken': token}})
 
     msgBody = """
-    We recently received a request to reset the password for the following 'CTF Platform' account:\n\n  - %s\n\n
-    Our records show that this is the email address used to register the above account.  If you did not request to reset the password for the above account then you need not take any further steps.  If you did request the password reset please follow the link below to set your new password. \n\n https://example.com/passreset#%s \n\n Best of luck! \n\n ~The 'CTF Platform' Team
+    We recently received a request to reset the password for the following 'Weekly CTF' account:\n\n  - %s\n\n
+    Our records show that this is the email address used to register the above account.  If you did not request to reset the password for the above account then you need not take any further steps.  If you did request the password reset please follow the link below to set your new password. \n\n http://YOURWEBSITE.com/passreset#%s \n\n Best of luck! \n\n ~The 'Weekly CTF' Team
     """ % (teamname, token)
 
-    send_email(teamEmail, "'CTF Platform' Password Reset", msgBody)
+    send_email(teamEmail, "'Weekly CTF' Password Reset", msgBody)
     return {"success": 1, "message": "A password reset link has been sent to the email address provided during registration."}
 
 
@@ -129,13 +129,13 @@ def lookup_team_names(email):
     for tname in tnames:
         msgBody += "\t- " + tname + "\n"
 
-    msgBody += """\nIf you have any other questions, feel free to contact us at other@example.com
+    msgBody += """\nIf you have any other questions, feel free to contact us at weeklyctf@gmail.com 
 
     Best of luck!
 
-    ~The 'CTF Platform' team
+    ~The 'Weekly CTF' team
     """
-    send_email(email, "'CTF Platform' Teamname Lookup", msgBody)
+    send_email(email, "'Weekly CTF' Teamname Lookup", msgBody)
     return {"status": 1, "message": "An email has been sent with your registered teamnames."}
 
 

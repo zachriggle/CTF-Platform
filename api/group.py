@@ -9,6 +9,10 @@ __status__ = "Production"
 from common import db
 import common
 
+def get_all_groups():
+    return           ({'name': str(g['name']),
+                       'gid': g['gid'],
+                       'owner': False} for g in list(db.groups.find({}, {'name': 1, 'gid': 1})))
 
 def get_group_membership(tid):
     """Get the group membership for a team.

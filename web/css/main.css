@@ -9,7 +9,7 @@
 }
 
 .contentbox {
-    font-family: 'Gill Sans', 'Gill Sans MT', sans-serif;
+    font-family: 'Press Start 2P', cursive;
     padding-top: 15px;
     padding-bottom: 30px;
     margin-bottom: 30px;
@@ -48,6 +48,11 @@ hr {
     border-color: white;
 }
 
+input, textarea, select{font-family:inherit;}
+.input, .textarea, .select, button {
+    font-family: 'Press Start 2P', cursive;
+}
+
 /* Navigation Bar */
 
 
@@ -66,7 +71,7 @@ hr {
 }
 
 .navbar .brand {
-    font-family: 'Gill Sans', 'Gill Sans MT', sans-serif;
+    font-family: 'Press Start 2P', cursive;
     font-size: 2.5em;
     font-weight: inherit;
     text-shadow: inherit;
@@ -76,7 +81,7 @@ hr {
 
 .navbar .nav li, .navbar .nav li a {
     text-transform: uppercase;
-    font-family: 'Gill Sans', 'Gill Sans MT', sans-serif;
+    font-family: 'Press Start 2P', cursive;
     font-size: 1em;
     text-shadow: inherit;
 }

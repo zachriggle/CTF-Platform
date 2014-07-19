@@ -30,6 +30,7 @@ def get_group_scoreboards(tid):
         board = cache.get('groupscoreboard_'+g['name'])
         if board is not None:
             group_scoreboards.append(json.loads(board))
+    # print group_scoreboards
     return group_scoreboards
 
 
@@ -39,7 +40,16 @@ def get_public_scoreboard():
     Kind of a hack, tells the front end to look for a static page scoreboard rather than sending a 2000+ length
     array that the front end must parse.
     """
-    return {'path': '/staticscoreboard.html', 'group': 'Public'}
+    group_scoreboards = []
+    groups = group.get_all_groups()
+    for g in groups:
+        board = cache.get('groupscoreboard_'+g['name'])
+        if board is not None:
+            group_scoreboards.append(json.loads(board))
+    return group_scoreboards
+
+    # return get_group_scoreboards('ZOZ85VJKUQRTBDL2QKZMLZ6RT')
+    # return {'path': '/staticscoreboard.html', 'group': 'Public'}
 
 
 def load_team_score(tid):
@@ -54,7 +64,7 @@ def load_team_score(tid):
     s = {d['pid'] for d in list(db.submissions.find({"tid": tid, "correct": True}))}  # ,#"timestamp": {"$lt": end}}))}
     score = sum([d['basescore'] if 'basescore' in d else 0 for d in list(db.problems.find({
         'pid': {"$in": list(s)}}))])
-    cache.set('teamscore_' + tid, score, 60 * 60)
+    cache.set('teamscore_' + tid, score, 1 * 60)
     return score
 
 
@@ -85,7 +95,7 @@ def load_group_scoreboard(group):
             else:
                 sortedsubs = sorted(subs, key=lambda k: str(k['timestamp']), reverse=True)
                 lastsubdate = str(sortedsubs[0]['timestamp'])
-            cache.set('lastsubdate_' + t['tid'], lastsubdate, 60 * 30)
+            cache.set('lastsubdate_' + t['tid'], lastsubdate, 1 * 30)
         t['lastsubdate'] = lastsubdate
 
     teams.sort(key=lambda k: k['lastsubdate'])
@@ -94,4 +104,7 @@ def load_group_scoreboard(group):
           'affiliation': esc(t['affiliation']),
           'score': load_team_score(t['tid'])}
          for t in teams], key=lambda k: k['score'], reverse=True) if x['score'] > 0]
-    cache.set('groupscoreboard_' + str(group['name']), json.dumps({'group': group['name'], 'scores': top_scores}), 60 * 30)
+    # print group
+    # print teams
+    # print top_scores
+    cache.set('groupscoreboard_' + str(group['name']), json.dumps({'group': group['name'], 'scores': top_scores}), 1 * 30)

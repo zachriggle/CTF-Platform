@@ -31,20 +31,20 @@ def register_team(request):
     we already know that the group does not exist (would have been caught at the beginning).
     """
     email = request.form.get('email', '')
-    teamname = request.form.get('team', '')
+    teamname = request.form.get('teamname', '')
     adviser = request.form.get('name', '')
     affiliation = request.form.get('aff', '')
-    pwd = request.form.get('pass', '')
+    pwd = request.form.get('password', '')
     gname = request.form.get('group', '').lower().strip('')
-    joingroup = request.form.get('joingroup', '')
-
-    if '' in {email, teamname, adviser, affiliation, pwd}:
-        return {'status': 0, 'message': "Please fill in all of the required fields."}
+    joingroup = 'true' #request.form.get('joingroup', '')
+    print {email, teamname, pwd}
+    if '' in {email, teamname, pwd}:
+        return {'success': 0, 'message': "Please fill in all of the required fields."}
     if db.teams.find({'teamname': teamname}).count() != 0:
-        return {'status': 0, 'message': "That team name is already registered."}
-    if joingroup != 'true' and gname != '':
-        if db.groups.find({'name': gname}).count() != 0:
-            return {'status': 2, 'message': "The group name you have entered exists, would you like to join it?"}
+        return {'success': 0, 'message': "That team name is already registered."}
+    # if joingroup != 'true' and gname != '':
+        # if db.groups.find({'name': gname}).count() != 0:
+            # return {'success': 2, 'message': "The group name you have entered exists, would you like to join it?"}
 
     tid = common.token()
     db.teams.insert({'email': str(email),
@@ -54,17 +54,17 @@ def register_team(request):
                      'pwhash': bcrypt.hashpw(str(pwd), bcrypt.gensalt(8)),
                      'tid': tid})
     if gname == '':
-        return {'status': 1, 'message': "Success! You have successfully registered."}
+        return {'success': 1, 'message': "Success! You have successfully registered."}
 
     if joingroup == 'true':
         if db.groups.find({'name': gname}).count() == 0:
             group.create_group(tid, gname)
         else:
             db.groups.update({'name': gname}, {'$push': {'members': tid}})
-            return {'status': 1, 'message': 'Success! You have been added to the group!'}
+            return {'success': 1, 'message': 'Success! You have been added to the group!'}
     else:
         group.create_group(tid, gname)
-        return {'status': 1, 'message': "Success! You are registered and have created your group."}
+        return {'success': 1, 'message': "Success! You are registered and have created your group."}
 
 
 def update_password(tid, request):
@@ -77,11 +77,11 @@ def update_password(tid, request):
     pwd = request.form.get('pwd', '')
     conf = request.form.get('conf', '')
     if pwd == '':
-        return {'status': 0, 'message': "The new password cannot be emtpy."}
+        return {'success': 0, 'message': "The new password cannot be emtpy."}
     if pwd != conf:
-        return {'status': 0, 'message': "The passwords do not match."}
+        return {'success': 0, 'message': "The passwords do not match."}
     db.teams.update({'tid': tid}, {'$set': {'pwhash': bcrypt.hashpw(pwd, bcrypt.gensalt(8))}})
-    return {'status': 1, 'message': "Success! Your password has been updated."}
+    return {'success': 1, 'message': "Success! Your password has been updated."}
 
 
 def get_ssh_account(tid):

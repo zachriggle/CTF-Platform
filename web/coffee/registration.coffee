@@ -1,4 +1,5 @@
-fields = ['email', 'team', 'name', 'aff', 'pass']
+# fields = ['email', 'team', 'name', 'aff', 'pass']
+fields = ['email', 'team', 'pass']
 
 clear = ->
   $('#reg-'+field).val('') for field in fields.concat ['group']
@@ -16,7 +17,9 @@ $(document).ready ->
     event.preventDefault()
     hash = window.location.hash
     post = getRegData()
-    if post['group'] == '' and hash.indexOf("#") != -1 then post['group'] = hash.substring(hash.indexOf("#")+1); post['joingroup'] = 'true'
+    if post['group'] == '' and hash.indexOf("#") != -1 
+      post['group'] = hash.substring(hash.indexOf("#")+1); 
+      post['joingroup'] = 'true'
     $.ajax(type: 'POST', url: '/api/register', dataType: 'json', data: post)
     .done (data) ->
       if data['status'] == 0

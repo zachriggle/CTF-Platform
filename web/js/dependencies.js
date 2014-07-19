@@ -1,29 +1,29 @@
 var tabsLI = [
-    ['compete', 'Game'],
-    ['irc', 'chat'],
-    ['webshell', 'Shell'],
+    ['problems', 'Challenges'],
+    // ['irc', 'chat'],
+    // ['webshell', 'Shell'],
     ['scoreboard', 'Scoreboard'],
-    ['news', 'News'],
-    ['learn', 'Learn'],
-    ['faq', 'FAQ'],
+    // ['news', 'News'],
+    // ['learn', 'Learn'],
+    // ['faq', 'FAQ'],
     ['account', 'Account'],
     ['logout', 'Logout']
 ];
 var tabsNLI = [
-    ['about', 'About'],
+    // ['about', 'About'],
     ['scoreboard', 'Scoreboard'],
-    ['faq', 'FAQ'],
+    // ['faq', 'FAQ'],
     ['registration', 'Registration'],
-    ['news', 'News'],
-    ['learn', 'Learn'],
-    ['contact', 'Contact'],
+    // ['news', 'News'],
+    // ['learn', 'Learn'],
+    // ['contact', 'Contact'],
     ['login', 'Login']
 ];
 var tabsFail = [
-    ['about', 'About'],
-    ['faq', 'FAQ'],
-    ['learn', 'Learn'],
-    ['contact', 'Contact']
+    // ['about', 'About'],
+    // ['faq', 'FAQ'],
+    // ['learn', 'Learn'],
+    // ['contact', 'Contact']
 ];
 
 function show_site_down_error() {

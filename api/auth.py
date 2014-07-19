@@ -22,8 +22,11 @@ def login(request, session):
 
     if 'tid' in session:  # we assume that if there is a tid in the session dict then the user is authenticated
         return {"success": 1, "message": "You are already logged in."}
+    print request.form
     teamname = request.form.get('teamname', None)  # get the teamname and password from the POSTed form
     password = request.form.get('password', None)
+    print teamname
+    print password
     if teamname is None or teamname == '':
         return {'success': 0, 'message': "Team name cannot be empty."}
     if password is None or password == '':  # No password submitted
